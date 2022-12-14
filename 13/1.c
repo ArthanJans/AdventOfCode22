@@ -33,6 +33,10 @@ list parse(char* string) {
     l.l = (intlistitem*)malloc(0);
     l.len = 0;
     while(string[i] !='\0') {
+        if(string[i] == ',') {
+            ++i;
+            continue;
+        }
         if(string[i] == '[') {
             char buf[1000] = "";
             clear(buf);
@@ -105,18 +109,8 @@ int compare(list a, list b) {
             }
         } else if(!a.l[i].islist && !b.l[i].islist) {
             if(a.l[i].value.num < b.l[i].value.num) {
-                print(a);
-                printf("\n");
-                print(b);
-                printf("\n");
-                printf("GOOD\n");
                 return 1;
             } else if(a.l[i].value.num > b.l[i].value.num) {
-                print(a);
-                printf("\n");
-                print(b);
-                printf("\n");
-                printf("BAD\n");
                 return 0;
             }
         } else if(a.l[i].islist && !b.l[i].islist) {
@@ -147,26 +141,11 @@ int compare(list a, list b) {
         ++i;
     }
     if(i < a.len) {
-        print(a);
-        printf("\n");
-        print(b);
-        printf("\n");
-        printf("BAD\n");
         return 0;
     }
     if(i < b.len) {
-        print(a);
-        printf("\n");
-        print(b);
-        printf("\n");
-        printf("GOOD\n");
         return 1;
     }
-    print(a);
-    printf("\n");
-    print(b);
-    printf("\n");
-    printf("IDK\n");
     return -1;
 
 }
@@ -183,11 +162,6 @@ int main() {
         list l2 = parse(input);
         clear(input);
         gets(input);
-        // print(l1);
-        // printf("\n");
-        // print(l2);
-        // printf("\n");
-        // printf("%d\n", compare(l1, l2));
         total += compare(l1, l2) * i;
         ++i;
         gets(input);
